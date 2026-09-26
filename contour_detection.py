@@ -1,5 +1,5 @@
 import cv2 as cv
-import pandas as pd
+
 import numpy as np
 
 img=cv.imread("D:\CV_practice\practice_images\cats_3.jpg")
