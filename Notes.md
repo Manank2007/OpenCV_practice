@@ -19,4 +19,31 @@ example: 1.cv.INTER_LINEAR-when resizing an image to a larger image you will usu
          >Edges are local areas in an image where the brightness changes sharply. They are just raw pixels where contrast shifts.
          >Contours are the bigger picture. They take those edge pixels and connect them together into a meaningful, continuous boundary line that forms a complete shape
 
-4. 
+4. Image Blurring Techniques:
+
+Blurring = convolving the image with a kernel that averages/weights nearby pixels. Used for noise reduction, and as pre-processing before edge/contour detection.
+(A). Averaging (Box Filter)
+->.Function: cv2.blur(img, (k, k))
+->.How it works: Replaces each pixel with the simple mean of all pixels in a k x k neighborhood. Every pixel in the kernel has equal weight.
+->.Effect: Uniform, "flat" blur. Fast, but not great at preserving edges — corners and lines get soft equally in all directions.
+->.Use when: Quick, simple noise reduction; not too concerned about edge quality.
+
+(B). Gaussian Blur
+->Function: cv2.GaussianBlur(img, (k, k), sigmaX)
+->.How it works: Same neighborhood-averaging idea, but weights follow a Gaussian (bell curve) — center pixel weighted highest, weight falls off with distance. sigmaX controls how fast weights fall off (larger sigma = wider spread = more blur).
+->.Effect: Smoother, more natural-looking blur than box filter. Better edge preservation because distant pixels contribute less.
+->.Use when: Standard pre-processing step before Canny edge detection — reduces high-frequency noise without over-smoothing real edges. This is the most commonly used blur in practice.
+
+(C). Median Blur
+->.Function: cv2.medianBlur(img, k)
+->.How it works: Replaces each pixel with the median (not mean) of the neighborhood.
+->.Effect: Excellent at removing "salt-and-pepper" noise (random black/white speckle pixels), since a single extreme outlier pixel doesn't skew a median the way it skews a mean. Preserves edges noticeably better than averaging/Gaussian for this noise type.
+->.Use when: Sensor noise looks like random spike pixels rather than smooth grain — common with cheap cameras or low-light IR sensors (relevant to your attendance-system camera).
+
+(D). Bilateral Filter
+->.Function: cv2.bilateralFilter(img, d, sigmaColor, sigmaSpace)
+->.How it works: Like Gaussian blur, but weights also depend on pixel intensity similarity, not just spatial distance. So it blurs pixels that are spatially close and similar in value, but preserves boundaries where intensity changes sharply (i.e., real edges).
+->.Effect: "Edge-preserving" blur — smooths flat regions (skin, sky, walls) while keeping sharp boundaries intact. Computationally the slowest of the four.
+->.Use when: You need noise reduction but can't afford to lose edge sharpness — e.g., pre-processing a face image before feature extraction, where you want to smooth skin texture but keep the face's actual outline crisp.
+
+5. 
