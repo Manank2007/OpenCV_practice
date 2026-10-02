@@ -22,6 +22,7 @@ example: 1.cv.INTER_LINEAR-when resizing an image to a larger image you will usu
 4. Image Blurring Techniques:
 
 Blurring = convolving the image with a kernel that averages/weights nearby pixels. Used for noise reduction, and as pre-processing before edge/contour detection.
+
 (A). Averaging (Box Filter)
 ->.Function: cv2.blur(img, (k, k))
 ->.How it works: Replaces each pixel with the simple mean of all pixels in a k x k neighborhood. Every pixel in the kernel has equal weight.
